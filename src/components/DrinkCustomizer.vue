@@ -1,9 +1,10 @@
 <template>
     <transition name="fade" appear>
-        <div id="card" class="relative bg-white p-6 rounded-2xl shadow-md">
-            <div class="grid grid-rows-2 gap-4 mb-4" style="grid-template-columns: 1fr 1.5fr .5fr; grid-template-rows: 48px auto;">
+        <div id="card" class="bg-white p-6 rounded-2xl shadow-sm">
+            <div class="grid grid-rows-2 gap-4 mb-4"
+                style="grid-template-columns: 1fr 1.5fr .5fr; grid-template-rows: 48px auto;">
                 <div class="flex items-center justify-start">
-                    <button @click="closeCustomizer" aria-label="Back" class="pointer">
+                    <button @click="closeCustomizer" aria-label="Back" class="cursor-pointer">
                         <IconArrowLeftOutline color="#FF7FB1" class="inline icon-thin" height="48" width="48" />
                     </button>
                 </div>
@@ -15,7 +16,7 @@
                     <img :src="item.image" :alt="item.name" class="w-full h-auto rounded-lg" />
                 </div>
                 <div class="flex flex-col mt-2">
-                    <h3 class="text-xl font-bold mb-2 whitespace-nowrap">{{ item.name }}</h3>
+                    <span class="text-xl font-semibold mb-2 whitespace-nowrap">{{ item.name }}</span>
                     <p class="drink-description">{{ item.description }}</p>
                 </div>
             </div>
@@ -24,10 +25,11 @@
                 <label class="block text-lg font-medium mb-4 text-text-accent">Size</label>
                 <div class="flex w-full gap-2">
                     <button v-for="sizeOption in optionsMap.size" :key="sizeOption.name"
-                        @click="selected.size = sizeOption.name" :class="{ active: sizeOption.name === selected.size }"
+                        @click="customizedItem.size = sizeOption.name"
+                        :class="{ active: sizeOption.name === customizedItem.size }"
                         class="flex-1 border-button-primary border rounded-xl p-2 cursor-pointer hover:bg-button-primary">
                         <label :for="sizeOption.name" class="text-gray-700 block cursor-pointer">{{ sizeOption.name
-                        }}</label>
+                            }}</label>
                         <label :for="sizeOption.name" class="text-gray-700 block cursor-pointer">${{
                             sizeOption.priceAdjustment.toFixed(2) }}</label>
 
@@ -36,21 +38,21 @@
                 <label class="block text-lg font-medium mb-4 text-text-accent">Temperature</label>
                 <div class="flex w-full gap-2">
                     <button v-for="temperature in optionsMap.temperature" :key="temperature.name"
-                        @click="selected.temperature = temperature.name"
-                        :class="{ active: temperature.name === selected.temperature }"
+                        @click="customizedItem.temperature = temperature.name"
+                        :class="{ active: temperature.name === customizedItem.temperature }"
                         class="flex-1 border-button-primary border rounded-xl p-2 cursor-pointer hover:bg-button-primary">
                         <label :for="temperature.name" class="text-gray-700 block cursor-pointer">{{ temperature.name
-                        }}</label>
+                            }}</label>
                         <label :for="temperature.name" class="text-gray-700 block cursor-pointer">${{
                             temperature.priceAdjustment.toFixed(2)
-                        }}</label>
+                            }}</label>
 
                     </button>
                 </div>
                 <label class="block text-lg font-medium mb-4 text-text-accent">Milk</label>
                 <div class="flex w-full gap-2">
-                    <button :class="{ active: milk.name === selected.milk }" v-for="milk in optionsMap.milk"
-                        :key="milk.name" @click="selected.milk = milk.name"
+                    <button :class="{ active: milk.name === customizedItem.milk }" v-for="milk in optionsMap.milk"
+                        :key="milk.name" @click="customizedItem.milk = milk.name"
                         class="flex-1 border-button-primary border rounded-xl p-2 cursor-pointer hover:bg-button-primary">
                         <label :for="milk.name" class="text-gray-700 block cursor-pointer">{{ milk.name }}</label>
                         <label :for="milk.name" class="text-gray-700 block cursor-pointer">${{
@@ -78,7 +80,7 @@
 </template>
 
 <script setup>
-import { reactive } from 'vue'
+import { reactive, watch } from 'vue'
 import { IconCartOutline, IconArrowLeftOutline } from '@iconify-prerendered/vue-flowbite'
 import { useCartStore } from '@/store/cart'
 const { item } = defineProps({
@@ -89,13 +91,30 @@ const { item } = defineProps({
 })
 const store = useCartStore();
 const emit = defineEmits(['close'])
-const selected = reactive({
-    size: 'Medium',
-    temperature: 'Iced',
-    milk: 'Whole Milk',
-    flavors: [],
-    extras: []
+const customizedItem = reactive({
+    ...item,
+    size: item.size ?? 'Medium',
+    temperature: item.temperature ?? 'Iced',
+    quantity: item.quantity || 1,
+    milk: item.milk ?? 'Whole Milk',
+    flavors: item.flavors ? [...item.flavors] : [],
+    extras: item.extras ? [...item.extras] : []
 })
+
+watch(
+    () => item,
+    (newItem) => {
+        Object.assign(customizedItem, {
+            ...newItem,
+            size: newItem.size ?? 'Medium',
+            temperature: newItem.temperature ?? 'Iced',
+            milk: newItem.milk ?? 'Whole Milk',
+            flavors: newItem.flavors ? [...newItem.flavors] : [],
+            extras: newItem.extras ? [...newItem.extras] : []
+        })
+    },
+    { immediate: true, deep: true }
+)
 function closeCustomizer() {
     emit('close')
 }
@@ -125,7 +144,7 @@ const optionsMap = {
     { priceAdjustment: 0.0, name: 'Caramel Drizzle' }]
 }
 function addToCart() {
-    store.addItem(item)
+    store.addItem(customizedItem)
     closeCustomizer()
 }
 </script>
@@ -138,7 +157,8 @@ function addToCart() {
 .active {
     background-color: var(--color-button-primary);
 }
-.active  label {
+
+.active label {
     color: white;
 }
 </style>

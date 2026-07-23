@@ -6,14 +6,16 @@
 
 /* add Flowbite Vue directory using @source directive. */
 @source "../../node_modules/flowbite-vue";
-
+@font-face {
+  font-family: 'Sacramento-Fallback';
+  src: local('Georgia'), local('Times New Roman');
+  size-adjust: 121%;
+  ascent-override: 81%;
+  descent-override: 26%;
+  line-gap-override: 0%;
+}
 body {
     background-color: var(--color-background);
-}
-
-#app {
-    width: clamp(350px, 50%, 550px);
-    margin: 0 auto;
 }
 
 li {
@@ -60,8 +62,11 @@ li {
     /* Backgrounds */
     --color-background: #FFF8F4;
     --color-background-alt: #FFF1F6;
+    --color-background-alt-hover: #FFd8e6;
+    --color-background-alt-card: #ffe5ef;
     --color-surface: #FFFFFF;
     --color-surface-hover: #FCF5F7;
+    --color-card-header-primary: #e3f5fc;
 
     /* Text */
     --color-foreground: #3B2A24;
@@ -77,6 +82,7 @@ li {
 
     /* Interactive */
     --color-accent: #F7E8A4;
+    --color-accent-light: #f4eabc;
     --color-accent-foreground: #3B2A24;
 
     --color-selection: var(--color-primary);
@@ -114,4 +120,5 @@ li {
     --radius-lg: 24px;
     --radius-full: 9999px;
     --color-text-accent: var(--color-primary);
+    --font-cursive: 'Sacramento', cursive;
 }

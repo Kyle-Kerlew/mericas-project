@@ -4,33 +4,47 @@
     </div>
     <transition v-else class="w-full" name="fade" appear>
         <div>
-            <div class="text-center bg-card-header-primary px-8 py-3 rounded-t-2xl ">
-                <h2 class="text-3xl font-semibold color-text-accent">
-                    {{ seasonalOnly ? 'Featured Items' : 'Menu' }}
-                </h2>
-            </div>
-            <div class="bg-white rounded-b-2xl py-8">
-                <div class="drink-list">
-                    <div v-for="item in visibleItems" :key="item.name" class="grid grid-cols-2 py-2">
+            <div class="bg-white shadow-sm rounded-full my-6">
+                <div class="text-center px-8 py-3 rounded-t-2xl ">
+                    <h2 class="text-2xl font-semibold text-primary">
+                        {{ seasonalOnly ? 'Featured Items' : 'Menu' }}
+                    </h2>
+                </div>
+                <div class="py-3 px-6">
+                    <div v-for="item in visibleItems" :key="item.name" class="grid custom-grid py-2">
+                        <div>
+                            <img :src="item.image" :alt="item.name" class="rounded-full h-24" />
+                        </div>
                         <div class="col-span-1 flex flex-col gap-2">
-                            <h3 class="font-bold text-lg">{{ item.name }}</h3>
-                            <p class="drink-description">{{ item.description }}</p>
+                            <h3 class="font-bold text-lg text-foreground-secondary">{{ item.name }}</h3>
+                            <p class=" text-foreground-secondary">{{ item.description }}</p>
                         </div>
                         <div class="col-span-1 flex flex-col items-end gap-2">
-                            <span class="drink-price">{{ new Intl.NumberFormat('en-US', {
+                            <span class="drink-price text-primary font-semibold">{{ new Intl.NumberFormat('en-US', {
                                 style: 'currency', currency:
                                     'USD'
                             }).format(item.price) }}</span>
                             <button @click="openCustomizer(item)"
-                                class="flex items-center justify-center bg-background text-text-accent rounded-full cursor-pointer w-9 h-9">
+                                class="flex items-center justify-center bg-background-alt duration-300 ease-in-out hover:bg-background-alt-hover text-primary rounded-full cursor-pointer w-9 h-9">
                                 <IconPlusOutline class="font-bold" width="22" height="22"></IconPlusOutline>
                             </button>
+
                         </div>
+
+                    </div>
+                    <div class="flex justify-center">
+                        <button v-if="seasonalOnly" @click="orderNow"
+                            class="flex justify-center items-center px-8 py-3 gap-2 font-semibold my-2 bg-button-primary text-light cursor-pointer rounded-full duration-300 ease-in-out hover:bg-primary-hover">
+                            <IconHeartSolid width="22" height="22" />
+                            Order Now
+                        </button>
+
                     </div>
                 </div>
+
             </div>
-            <button
-                class="flex items-center justify-between gap-2 bg-pink-500 text-white mt-3 rounded-2xl py-3 px-6 w-full shadow-md cursor-pointer">
+            <button v-if="!seasonalOnly" @click="openCart"
+                class="flex items-center justify-between gap-2 bg-primary text-white my-3 rounded-full py-3 px-6 w-full shadow-md cursor-pointer">
                 <div class="flex items-center w-1/3">
                     <div class="relative mr-5">
                         <IconCartOutline class="icon-thin" height="36" width="36" />
@@ -56,14 +70,15 @@
 import { computed, ref } from 'vue'
 import { useCartStore } from '@/store/cart'
 import DrinkCustomizer from '@/components/DrinkCustomizer.vue'
-import { IconPlusOutline, IconCartOutline } from '@iconify-prerendered/vue-flowbite'
-
+import { IconPlusOutline, IconCartOutline, IconHeartSolid } from '@iconify-prerendered/vue-flowbite'
+import { useRouter } from 'vue-router'
 const props = defineProps({
     seasonalOnly: {
         type: Boolean,
         default: false
     }
 })
+const router = useRouter();
 const cart = useCartStore()
 const showCustomizer = ref(false)
 const selectedItem = ref(null)
@@ -76,6 +91,10 @@ const openCustomizer = (item) => {
 const closeCustomizer = () => {
     selectedItem.value = null
     showCustomizer.value = false
+}
+
+function openCart() {
+    router.push('/cart');
 }
 
 const menuItems = [
@@ -95,6 +114,9 @@ const cartItemCount = computed(() => {
 const cartItemCost = computed(() => {
     return cart.totalPrice
 })
+function orderNow() {
+    router.push('/order');
+}
 </script>
 
 <style scoped>
@@ -118,16 +140,11 @@ const cartItemCost = computed(() => {
     stroke-width: 1px !important;
 }
 
+.custom-grid {
+    grid-template-columns: 0.75fr 1.25fr 1fr;
+}
+
 .drink-list>li {
     margin-bottom: .75rem;
-}
-
-.drink-description {
-    padding: 0 1.25rem;
-
-}
-
-.drink-list {
-    padding: 0 1.25rem;
 }
 </style>
