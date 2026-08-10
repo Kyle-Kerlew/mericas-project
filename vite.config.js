@@ -8,6 +8,22 @@ import tailwindcss from '@tailwindcss/vite'
 
 // https://vite.dev/config/
 export default defineConfig({
+  server: {
+    proxy: {
+      '/api': {
+        target: 'https://connect.squareupsandbox.com',
+        changeOrigin: true,
+        secure: false,
+        rewrite: (path) => path.replace(/^\/api/, ''),
+        configure: (proxy) => {
+          proxy.on('proxyReq', (proxyReq) => {
+            proxyReq.removeHeader('origin');
+            proxyReq.setHeader('origin', 'https://connect.squareupsandbox.com');
+          });
+        },
+      },
+    },
+  },
   plugins: [
     vue(),
     vueJsx(),

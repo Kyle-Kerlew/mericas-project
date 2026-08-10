@@ -43,13 +43,27 @@
         </div>
       </section>
 
-      <div class="flex">
-
-        <Menu seasonalOnly />
+      <div class="home-feature-grid">
         <div>
-          <div id="locations" class="bg-background-alt-card p-6 rounded-2xl shadow-sm">
-            <h2 class="text-2xl font-semibold mb-6 text-primary">Find Our Coffee</h2>
-            <ul class="list-disc list-inside mb-4 locations text-foreground-secondary">
+          <div id="locations" class="p-6 flex flex-col items-center justify-center w-full">
+            <div class="section-heading">
+              <h2 class="text-3xl font-semibold text-primary">Find Our Coffee</h2>
+            </div>
+            <div
+              class="flex items-center justify-center w-full mb-4 before:ml-3.75 before:mr-1 before:flex-1 before:border-b before:border-primary after:flex-1 after:border-b after:border-primary after:mr-3.75 after:ml-1">
+              <IconHeartSolid class="text-primary" width="16" height="16" />
+            </div>
+            <h3 class="text-primary text-xl uppercase font-semibold mb-4">next stop</h3>
+            <div id="next-stop" class="location-copy-grid">
+              <Logo class="h-26 w-auto" name="our-coffee-icon" />
+              <div class="flex flex-col">
+                <span class="text-lg font-bold mb-2">Riverside Arts Market</span>
+                <span class=" text-primary font-bold mb-2">Sat, July 25 &#8226; 10AM - 3PM</span>
+                <span class="text-sm">715 Riverside Ave, Jacksonville, FL.</span>
+              </div>
+              <h2 class="text-primary uppercase font-semibold text-xl mb-2">Also Find Us At </h2>
+            </div>
+            <ul class="self-start list-disc list-inside mb-4 locations text-foreground-secondary">
               <li>Riverside Arts Market</li>
               <li>Riverside Flea Market</li>
               <li>Ya Mammas House</li>
@@ -57,24 +71,28 @@
               <li>Placeholder</li>
             </ul>
             <button @click="viewSchedule"
-              class="border border-primary rounded-2xl text-primary py-2 px-6 text-lg font-semibold duration-300 ease-in-out hover:bg-primary-hover hover:text-light cursor-pointer">
-              <IconCalendarMonthOutline width="22" height="22" /> View Schedule
+              class="flex gap-2 justify-center items-center border border-primary rounded-2xl text-primary py-2 px-6 text-lg font-semibold duration-300 ease-in-out hover:bg-primary-hover hover:text-light cursor-pointer">
+              <IconCalendarMonthOutline width="22" height="22" />
+              <div>
+                View Schedule
+              </div>
             </button>
           </div>
         </div>
+        <Menu seasonalOnly />
       </div>
-
       <div class="flex flex-col md:flex-row gap-5 md:gap-6 my-6 items-start md:items-center">
         <fwb-img :src="mericaImg" alt="Merica, the owner" class="w-full md:w-82 h-auto rounded-2xl object-contain" />
         <div class="w-full">
-          <h1 class="text-primary text-xl font-bold mb-3">Meet Merica</h1>
-          <p class="text-foreground-secondary">My name is Merica Andrews and this is my coffee cart, {{ siteName }}. I
+          <h1 class="text-primary text-3xl font-bold mb-3">Meet Merica</h1>
+          <p class="text-foreground-secondary max-w-2xl mb-3">My name is Merica Andrews and this is my coffee cart, {{ siteName }}. I
             started this business with a simple mission: to serve high-quality drinks with a whole lot of heart.</p>
-          <p class="text-foreground-secondary">Thank you for supporting a small, local business. I can't wait to serve
-            you!</p>
+          <p class="text-xl text-primary font-bold">Thank you for supporting a small, local business. </p>
+          <p class="text-primary-lighter text-[36px] font-cursive">I can't wait to serve you! &#9825;</p>
           <button @click="orderNow"
-            class="my-4 border border-primary text-primary cursor-pointer rounded-2xl py-2 px-6 text-lg font-semibold duration-300 ease-in-out hover:bg-primary-hover hover:text-light">
-            Contact Us
+            class="flex gap-2 items-center my-4 border border-primary text-primary cursor-pointer rounded-2xl py-2 px-6 text-lg font-semibold duration-300 ease-in-out hover:bg-primary-hover hover:text-light">
+            <IconEnvelopeSolid width="22" height="22" />
+            <span>Contact Us</span>
           </button>
         </div>
       </div>
@@ -86,7 +104,7 @@
 <script setup>
 import Menu from '@/components/Menu.vue';
 import mericaImg from '@/assets/png/merica.jpg';
-import { IconHeartSolid, IconCalendarMonthOutline } from '@iconify-prerendered/vue-flowbite'
+import { IconHeartSolid, IconCalendarMonthOutline, IconEnvelopeSolid } from '@iconify-prerendered/vue-flowbite'
 import { siteName } from '@/config/site';
 import { FwbImg } from 'flowbite-vue';
 import { useRouter } from 'vue-router';
@@ -107,11 +125,6 @@ function viewSchedule() {
 </script>
 
 <style scoped>
-.gutter-container {
-  max-width: 100%;
-  margin: 0 auto;
-  padding: 0 0.75rem;
-}
 
 @media (min-width: 640px) {
   .gutter-container {
@@ -149,14 +162,13 @@ function viewSchedule() {
 
 ul.locations li {
   list-style: none;
-
   position: relative;
   padding-left: 1.5rem;
   margin-bottom: 0.5rem;
 }
 
 .hero-section {
-  padding: 2rem 0;
+  padding-top: 2rem;
 }
 
 .font-cursive {
@@ -174,5 +186,45 @@ ul.locations li::before {
 
   -webkit-mask: url("../assets/svg/pin-icon.svg") center / contain no-repeat;
   mask: url("../assets/svg/pin-icon.svg") center / contain no-repeat;
+}
+
+.home-feature-grid {
+  display: grid;
+  grid-template-columns: 30% 70%;
+  gap: 4rem;
+}
+
+.section-heading {
+  display: grid;
+  grid-template-rows: 3rem auto;
+  justify-items: center;
+  width: 100%;
+  margin-bottom: 0.5rem;
+}
+
+.section-heading-eyebrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.location-copy-grid {
+  display: grid;
+  grid-template-columns: 5rem minmax(0, 1fr);
+  column-gap: 1rem;
+  row-gap: 1rem;
+  align-items: start;
+  width: 100%;
+  margin-bottom: 0.75rem;
+}
+
+.location-copy-grid h2 {
+  grid-column: 2;
+}
+
+@media (max-width: 1120px) {
+  .home-feature-grid {
+    grid-template-columns: 1fr;
+  }
 }
 </style>

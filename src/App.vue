@@ -21,15 +21,11 @@ import Navigation from '@/components/Navigation.vue';
   padding: 0 0.75rem;
 }
 
-@media (min-width: 640px) {
+@media (max-width: 62.5rem) {
   .gutter-container {
-    padding: 0 1rem;
-  }
-}
-
-@media (min-width: 768px) {
-  .gutter-container {
-    padding: 0;
+    padding: 0 2rem !important;
+    margin: 0;
+    width: 100%;
   }
 }
 </style>

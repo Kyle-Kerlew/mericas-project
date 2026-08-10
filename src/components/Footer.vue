@@ -1,6 +1,6 @@
 <template>
-    <footer class="bg-accent text-foreground-secondary py-12">
-        <div class="flex justify-center items-center gap-6 mb-6">
+    <footer class="bg-accent text-foreground-secondary py-8">
+        <div class="flex justify-center items-center gap-6">
 
             <p>Thanks For Supporting Small & Local!</p>
             <a href="https://facebook.com" target="_blank" rel="noopener noreferrer"

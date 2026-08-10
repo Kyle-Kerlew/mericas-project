@@ -2,67 +2,81 @@
     <div v-if="showCustomizer">
         <DrinkCustomizer :item="selectedItem" @close="closeCustomizer" />
     </div>
-    <transition v-else class="w-full" name="fade" appear>
-        <div>
-            <div class="bg-white shadow-sm rounded-full my-6">
-                <div class="text-center px-8 py-3 rounded-t-2xl ">
-                    <h2 class="text-2xl font-semibold text-primary">
-                        {{ seasonalOnly ? 'Featured Items' : 'Menu' }}
+    <transition v-else name="fade" appear>
+        <div class="flex justify-center gap-5 pt-6 sm:px-4 ">
+            <div :class="['w-full sm:max-w-[80vw] rounded-3xl', seasonalOnly ? 'my-0' : 'my-6']">
+                <div class="menu-heading text-center px-8 rounded-t-2xl">
+                    <div class="section-heading-eyebrow"> 
+                        <h2 class="font-cursive! text-3xl text-primary">Made With Love</h2>
+                    </div>
+                    <h2 class="text-4xl font-semibold mb-2">
+                        {{ seasonalOnly ? siteName + ' Favorites' : 'Menu' }}
                     </h2>
+                    <span class="mb-2">Our most loved drinks, made just for you</span>
+                    <IconHeartSolid class="text-primary" width="22" height="22" />
                 </div>
-                <div class="py-3 px-6">
-                    <div v-for="item in visibleItems" :key="item.name" class="grid custom-grid py-2">
-                        <div>
-                            <img :src="item.image" :alt="item.name" class="rounded-full h-24" />
-                        </div>
-                        <div class="col-span-1 flex flex-col gap-2">
-                            <h3 class="font-bold text-lg text-foreground-secondary">{{ item.name }}</h3>
-                            <p class=" text-foreground-secondary">{{ item.description }}</p>
-                        </div>
-                        <div class="col-span-1 flex flex-col items-end gap-2">
-                            <span class="drink-price text-primary font-semibold">{{ new Intl.NumberFormat('en-US', {
-                                style: 'currency', currency:
-                                    'USD'
-                            }).format(item.price) }}</span>
-                            <button @click="openCustomizer(item)"
-                                class="flex items-center justify-center bg-background-alt duration-300 ease-in-out hover:bg-background-alt-hover text-primary rounded-full cursor-pointer w-9 h-9">
-                                <IconPlusOutline class="font-bold" width="22" height="22"></IconPlusOutline>
-                            </button>
+                <div class="py-3 sm:px-6">
+                    <div class="grid grid-cols-1 gap-y-8 gap-x-2 navigation-mobile:grid-cols-2">
+                        <div v-for="item in visibleItems" :key="item.name">
+                            <div class="grid grid-cols-[100px_minmax(120px,_1fr)_100px]">
+                                <div>
+                                    <div class="image-plate">
+                                        <img :src="item.image" :alt="item.name"
+                                            class="rounded-full h-20 w-20 object-cover" />
+                                    </div>
+                                </div>
+                                <div>
+                                    <h3 class="font-bold text-lg">{{ item.name }}</h3>
+                                    <p>{{ item.description }}</p>
+                                </div>
+                                <div class="flex flex-col items-center gap-2">
+                                    <span class="text-primary font-bold">{{ new Intl.NumberFormat('en-US', {
+                                        style: 'currency',
+                                        currency: 'USD'
+                                    }).format(item.price) }}</span>
+                                    <button @click="openCustomizer(item)" class="add-btn"
+                                        aria-label="Add {{ item.name }}">
+                                        <IconPlusOutline width="20" height="20" />
+                                    </button>
+                                </div>
 
+                            </div>
                         </div>
-
                     </div>
                     <div class="flex justify-center">
                         <button v-if="seasonalOnly" @click="orderNow"
                             class="flex justify-center items-center px-8 py-3 gap-2 font-semibold my-2 bg-button-primary text-light cursor-pointer rounded-full duration-300 ease-in-out hover:bg-primary-hover">
                             <IconHeartSolid width="22" height="22" />
-                            Order Now
+                            View Full Menu
                         </button>
 
                     </div>
                 </div>
+                <div class="flex justify-center">
+
+                    <button v-if="!seasonalOnly" @click="openCart"
+                        class="flex items-center justify-between gap-2 bg-primary text-white my-3 rounded-full py-3 px-6 w-full md:w-[65%] shadow-md cursor-pointer">
+                        <div class="flex items-center w-1/3">
+                            <div class="relative mr-5">
+                                <IconCartOutline class="icon-thin" height="36" width="36" />
+                                <span
+                                    class="icon-item-count text-sm bg-white text-pink-600 w-5 h-5 flex justify-center items-center rounded-full">{{
+                                        cartItemCount }}</span>
+                            </div>
+                            <span class="text-nowrap">View Cart</span>
+                        </div>
+                        <div>
+                            <div class="vertical-separator" />
+                        </div>
+                        <div class="flex items-center justify-end w-1/3">
+                            <span>Total: {{ new Intl.NumberFormat('en-US', {
+                                style: 'currency', currency: 'USD'
+                            }).format(cartItemCost) }}</span>
+                        </div>
+                    </button>
+                </div>
 
             </div>
-            <button v-if="!seasonalOnly" @click="openCart"
-                class="flex items-center justify-between gap-2 bg-primary text-white my-3 rounded-full py-3 px-6 w-full shadow-md cursor-pointer">
-                <div class="flex items-center w-1/3">
-                    <div class="relative mr-5">
-                        <IconCartOutline class="icon-thin" height="36" width="36" />
-                        <span
-                            class="icon-item-count text-sm bg-white text-pink-600 w-5 h-5 flex justify-center items-center rounded-full">{{
-                                cartItemCount }}</span>
-                    </div>
-                    <span class="text-nowrap">View Cart</span>
-                </div>
-                <div>
-                    <div class="vertical-separator" />
-                </div>
-                <div class="flex items-center justify-end w-1/3">
-                    <span>Total: {{ new Intl.NumberFormat('en-US', {
-                        style: 'currency', currency: 'USD'
-                    }).format(cartItemCost) }}</span>
-                </div>
-            </button>
         </div>
     </transition>
 </template>
@@ -72,6 +86,7 @@ import { useCartStore } from '@/store/cart'
 import DrinkCustomizer from '@/components/DrinkCustomizer.vue'
 import { IconPlusOutline, IconCartOutline, IconHeartSolid } from '@iconify-prerendered/vue-flowbite'
 import { useRouter } from 'vue-router'
+import { siteName } from '@/config/site';
 const props = defineProps({
     seasonalOnly: {
         type: Boolean,
@@ -98,10 +113,10 @@ function openCart() {
 }
 
 const menuItems = [
-    { name: 'My Man', description: 'Rich and bold espresso shot.', price: 1000000000.99, seasonal: false, image: "src/assets/png/BaddieBeanPlaceHolder.png" },
-    { name: 'Blueberry Cobbler Chai', description: 'Classic Chai with blueberry Cobbler.', price: 6.50, seasonal: true, image: "src/assets/png/BaddieBeanPlaceHolder.png" },
-    { name: 'Caramel Macchiato', description: 'Espresso with caramel and milk.', price: 5.00, seasonal: false, image: "src/assets/png/BaddieBeanPlaceHolder.png" },
-    { name: 'Vanilla Latte', description: 'Espresso with vanilla and milk.', price: 4.50, seasonal: true, image: "src/assets/png/BaddieBeanPlaceHolder.png" }
+    { name: 'My Man', description: 'Rich and bold espresso shot with a side of wink wink ;) 😏😏😏.', price: 4.75, seasonal: false, image: "src/assets/png/BaddieBeanPlaceHolder.png" },
+    { name: 'Blueberry Cobbler Chai', description: 'Classic Chai with blueberry Cobbler Flavor and a Touch of Warm Spices', price: 6.50, seasonal: true, image: "src/assets/png/BaddieBeanPlaceHolder.png" },
+    { name: 'Caramel Macchiato', description: 'Caramel and vanilla with a cloud of foam and a drizzle of golden goodness.', price: 5.00, seasonal: true, image: "src/assets/png/BaddieBeanPlaceHolder.png" },
+    { name: 'Vanilla Latte', description: 'Smooth espresso with vanilla and and steamed milk. Simple, classic, and comforting.', price: 4.50, seasonal: true, image: "src/assets/png/BaddieBeanPlaceHolder.png" }
 ]
 
 const visibleItems = computed(() => {
@@ -141,10 +156,60 @@ function orderNow() {
 }
 
 .custom-grid {
-    grid-template-columns: 0.75fr 1.25fr 1fr;
+    display: grid;
+    grid-template-columns: 144px minmax(0, 1fr) .75fr;
+    gap: 1.5rem;
+    align-items: stretch;
+}
+
+.custom-grid>* {
+    min-width: 0;
 }
 
 .drink-list>li {
     margin-bottom: .75rem;
+}
+
+.menu-heading {
+    display: grid;
+    grid-template-rows: 3rem auto auto auto;
+    justify-items: center;
+    padding-bottom: 0.75rem;
+}
+
+.section-heading-eyebrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.image-plate {
+    background: #FFE9C9;
+    border-radius: 50%;
+    width: 84px;
+    height: 84px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 0 rgba(0, 0, 0, 0.03) inset;
+}
+
+.add-btn {
+    background: #d93b6a;
+    color: white;
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+@media (max-width: 768px) {
+    .menu-grid {
+        grid-template-columns: 1fr;
+    }
 }
 </style>

@@ -27,10 +27,10 @@
                     <button v-for="sizeOption in optionsMap.size" :key="sizeOption.name"
                         @click="customizedItem.size = sizeOption.name"
                         :class="{ active: sizeOption.name === customizedItem.size }"
-                        class="flex-1 border-button-primary border rounded-xl p-2 cursor-pointer hover:bg-button-primary">
-                        <label :for="sizeOption.name" class="text-gray-700 block cursor-pointer">{{ sizeOption.name
-                            }}</label>
-                        <label :for="sizeOption.name" class="text-gray-700 block cursor-pointer">${{
+                        class="flex-1 border-button-primary border rounded-xl p-2 cursor-pointer hover:bg-primary-hover hover:text-white text-gray-700">
+                        <label :for="sizeOption.name" class=" hiver block cursor-pointer">{{ sizeOption.name
+                        }}</label>
+                        <label :for="sizeOption.name" class=" block cursor-pointer">${{
                             sizeOption.priceAdjustment.toFixed(2) }}</label>
 
                     </button>
@@ -40,12 +40,12 @@
                     <button v-for="temperature in optionsMap.temperature" :key="temperature.name"
                         @click="customizedItem.temperature = temperature.name"
                         :class="{ active: temperature.name === customizedItem.temperature }"
-                        class="flex-1 border-button-primary border rounded-xl p-2 cursor-pointer hover:bg-button-primary">
-                        <label :for="temperature.name" class="text-gray-700 block cursor-pointer">{{ temperature.name
-                            }}</label>
-                        <label :for="temperature.name" class="text-gray-700 block cursor-pointer">${{
+                        class="flex-1 border-button-primary border rounded-xl p-2 cursor-pointer hover:bg-primary-hover hover:text-white text-gray-700">
+                        <label :for="temperature.name" class=" block cursor-pointer">{{ temperature.name
+                        }}</label>
+                        <label :for="temperature.name" class=" block cursor-pointer">${{
                             temperature.priceAdjustment.toFixed(2)
-                            }}</label>
+                        }}</label>
 
                     </button>
                 </div>
@@ -53,9 +53,9 @@
                 <div class="flex w-full gap-2">
                     <button :class="{ active: milk.name === customizedItem.milk }" v-for="milk in optionsMap.milk"
                         :key="milk.name" @click="customizedItem.milk = milk.name"
-                        class="flex-1 border-button-primary border rounded-xl p-2 cursor-pointer hover:bg-button-primary">
-                        <label :for="milk.name" class="text-gray-700 block cursor-pointer">{{ milk.name }}</label>
-                        <label :for="milk.name" class="text-gray-700 block cursor-pointer">${{
+                        class="flex-1 border-button-primary border rounded-xl p-2 cursor-pointer hover:bg-primary-hover hover:text-white text-gray-700">
+                        <label :for="milk.name" class=" block cursor-pointer">{{ milk.name }}</label>
+                        <label :for="milk.name" class=" block cursor-pointer">${{
                             milk.priceAdjustment.toFixed(2) }}</label>
 
                     </button>
@@ -155,7 +155,7 @@ function addToCart() {
 /* Adjust the path as necessary */
 
 .active {
-    background-color: var(--color-button-primary);
+    background-color: var(--color-button-primary-hover);
 }
 
 .active label {

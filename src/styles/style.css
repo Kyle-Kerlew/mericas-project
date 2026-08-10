@@ -6,16 +6,60 @@
 
 /* add Flowbite Vue directory using @source directive. */
 @source "../../node_modules/flowbite-vue";
+
 @font-face {
-  font-family: 'Sacramento-Fallback';
-  src: local('Georgia'), local('Times New Roman');
-  size-adjust: 121%;
-  ascent-override: 81%;
-  descent-override: 26%;
-  line-gap-override: 0%;
+    font-family: 'Sacramento-Fallback';
+    src: local('Georgia'), local('Times New Roman');
+    size-adjust: 121%;
+    ascent-override: 81%;
+    descent-override: 26%;
+    line-gap-override: 0%;
 }
+
+
+h1,
+h2,
+h3,
+h4,
+.section-title {
+    font-family: var(--font-heading);
+    font-weight: 400;
+    line-height: 1.05;
+}
+
+body,
+button,
+input,
+textarea,
+select {
+    font-family: var(--font-body);
+}
+
+html {
+    font-family: var(--font-body);
+}
+
 body {
     background-color: var(--color-background);
+    font-family: var(--font-body);
+    font-weight: 400;
+    line-height: 1.6;
+}
+
+nav,
+.eyebrow {
+    font-weight: 600;
+}
+
+button {
+    font-weight: 700;
+}
+
+button,
+.button,
+nav a {
+  font-family: var(--font-body);
+  font-weight: 700;
 }
 
 li {
@@ -53,8 +97,13 @@ li {
 }
 
 @theme {
+
+    /* Breakpoints */
+      --breakpoint-navigation-mobile: 62.5rem;
+
     /* Brand */
     --color-primary: #D6336C;
+    --color-primary-lighter: #e3739a;
     --color-primary-hover: #BE295F;
     --color-primary-active: #A81F53;
     --color-primary-foreground: #FFFFFF;
@@ -121,4 +170,6 @@ li {
     --radius-full: 9999px;
     --color-text-accent: var(--color-primary);
     --font-cursive: 'Sacramento', cursive;
+    --font-heading: "DM Serif Display", serif;
+    --font-body: "Manrope", sans-serif;
 }
