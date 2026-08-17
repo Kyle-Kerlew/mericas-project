@@ -1,9 +1,9 @@
 <template>
     <transition name="fade" appear>
-        <div class="bg-white px-4 my-4">
+        <div v-if="!showCustomizer" class="max-w-md sm:max-w-lg md:max-w-xl lg:max-w-3xl mx-auto px-4 my-4">
             <header>
                 <div class="grid custom-grid-nav-header">
-                    <button @click="closeCustomizer" aria-label="Back" class="cursor-pointer grid-column-1">
+                    <button @click="continueShopping" aria-label="Back" class="cursor-pointer grid-column-1">
                         <IconArrowLeftOutline color="#FF7FB1" class="inline icon-thin" height="48" width="48" />
                     </button>
                     <div class="grid-column-2">
@@ -17,7 +17,7 @@
             <p v-if="cartItems.length" class="cart-subtitle">Good choices! We can’t wait to make your day.</p>
 
             <section v-if="cartItems.length">
-                <div v-for="item in cartItems" :key="item.id"
+                <div v-for="(item, idx) in cartItems" :key="item.id ?? idx"
                     class="grid custom-grid py-2 px-2 border-b border-b-background-alt-hover">
                     <img :src="item.image || placeholderImage" :alt="item.name" class="item-image" />
                     <div>
@@ -26,15 +26,24 @@
                             <p class="text-sm text-surface-secondary font-semibold">{{ item.size }} · {{
                                 item.temperature }}</p>
                             <p class="text-sm  text-surface-secondary font-semibold">{{ item.milk }}</p>
-                            <button class="text-primary text-sm font-semibold" @click="editItem(item)">Edit</button>
+                            <button class="text-primary text-sm font-semibold" @click="editItem(item, idx)">Edit</button>
                         </div>
 
                     </div>
                     <div class="item-actions">
                         <div class="quantity-control">
-                            <button @click="decrement(item)">−</button>
+                            <template v-if="(item.quantity || 1) > 1">
+                                <button aria-label="Decrease quantity" @click="decrement(item)">−</button>
+                            </template>
+                            <template v-else>
+                                <button aria-label="Remove item" class="trash-button" @click="decrement(item)">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                                        <path d="M3 6h18v2H3V6zm2 3h14l-1 11H6L5 9zm3-5h8l1 1h3v2H4V5h3l1-1z" />
+                                    </svg>
+                                </button>
+                            </template>
                             <span>{{ item.quantity || 1 }}</span>
-                            <button @click="increment(item)">+</button>
+                            <button aria-label="Increase quantity" @click="increment(item)">+</button>
                         </div>
                         <div class="item-price">{{ formatCurrency((item.price || 0) * (item.quantity || 1)) }}</div>
                     </div>
@@ -67,6 +76,8 @@
             <button class="continue-button" type="button" @click="continueShopping">Continue Shopping</button>
         </div>
     </transition>
+    
+    <DrinkCustomizer v-if="showCustomizer" :item="selectedEditItem" :is-edit="true" :edit-index="selectedEditIndex" @close="closeCustomizer" @update="onUpdateItem" />
 </template>
 
 <script setup>
@@ -110,23 +121,49 @@ const handleCheckout = async () => {
 }
 const increment = (item) => {
     if (cartStore.incrementQuantity) {
-        cartStore.incrementQuantity(item.id)
-    } else if (cartStore.updateItem) {
-        cartStore.updateItem(item.id, { quantity: (item.quantity || 1) + 1 })
+        cartStore.incrementQuantity(item)
+    } else if (cartStore.updateItemAt) {
+        // fallback: find index and update
+        const idx = cartStore.items.findIndex(i => (i.id !== undefined && item.id !== undefined) ? i.id === item.id : i === item)
+        if (idx !== -1) cartStore.updateItemAt(idx, { quantity: (item.quantity || 1) + 1 })
     }
 }
 
 const decrement = (item) => {
-    if (item.quantity > 1) {
-        if (cartStore.decrementQuantity) {
-            cartStore.decrementQuantity(item.id)
-        } else if (cartStore.updateItem) {
-            cartStore.updateItem(item.id, { quantity: (item.quantity || 1) - 1 })
+    if (cartStore.decrementQuantity) {
+        cartStore.decrementQuantity(item)
+    } else if (cartStore.updateItemAt) {
+        const idx = cartStore.items.findIndex(i => (i.id !== undefined && item.id !== undefined) ? i.id === item.id : i === item)
+        if (idx !== -1) {
+            const newQty = (item.quantity || 1) - 1
+            if (newQty > 0) cartStore.updateItemAt(idx, { quantity: newQty })
+            else cartStore.removeItem(item)
         }
     }
 }
-const editItem = () => {
-    // Placeholder to open item edit flow if available
+import DrinkCustomizer from '@/components/DrinkCustomizer.vue'
+import { ref } from 'vue'
+
+const showCustomizer = ref(false)
+const selectedEditItem = ref(null)
+const selectedEditIndex = ref(null)
+
+const editItem = (item, idx) => {
+    selectedEditItem.value = item
+    selectedEditIndex.value = idx
+    showCustomizer.value = true
+}
+
+const closeCustomizer = () => {
+    selectedEditItem.value = null
+    selectedEditIndex.value = null
+    showCustomizer.value = false
+}
+
+const onUpdateItem = ({ index, item }) => {
+    // use store action to update
+    cartStore.updateItemAt(index, item)
+    closeCustomizer()
 }
 </script>
 
@@ -216,6 +253,19 @@ const editItem = () => {
     font-size: 1.1rem;
     width: 28px;
     height: 28px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.trash-button {
+    border: none;
+    background: transparent;
+    color: #d41d73;
+    width: 28px;
+    height: 28px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     border-radius: 50%;
     cursor: pointer;
 }

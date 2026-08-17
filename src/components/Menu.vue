@@ -3,8 +3,8 @@
         <DrinkCustomizer :item="selectedItem" @close="closeCustomizer" />
     </div>
     <transition v-else name="fade" appear>
-        <div class="flex justify-center gap-5 pt-6 sm:px-4 ">
-            <div :class="['w-full sm:max-w-[80vw] rounded-3xl', seasonalOnly ? 'my-0' : 'my-6']">
+        <div class="flex justify-center gap-5 pt-3 sm:pt-6 sm:px-4 max-w-md sm:max-w-lg md:max-w-xl lg:max-w-5xl mx-auto">
+            <div id="featured" :class="['w-full sm:max-w-[80vw] rounded-3xl', seasonalOnly ? 'my-0' : 'my-6']">
                 <div class="menu-heading text-center px-8 rounded-t-2xl">
                     <div class="section-heading-eyebrow"> 
                         <h2 class="font-cursive! text-3xl text-primary">Made With Love</h2>
@@ -34,7 +34,7 @@
                                         style: 'currency',
                                         currency: 'USD'
                                     }).format(item.price) }}</span>
-                                    <button @click="openCustomizer(item)" class="add-btn"
+                                    <button @click="selectDrink(item)" class="add-btn"
                                         aria-label="Add {{ item.name }}">
                                         <IconPlusOutline width="20" height="20" />
                                     </button>
@@ -43,7 +43,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="flex justify-center">
+                    <div class="flex justify-center pt-5">
                         <button v-if="seasonalOnly" @click="orderNow"
                             class="flex justify-center items-center px-8 py-3 gap-2 font-semibold my-2 bg-button-primary text-light cursor-pointer rounded-full duration-300 ease-in-out hover:bg-primary-hover">
                             <IconHeartSolid width="22" height="22" />
@@ -81,11 +81,11 @@
     </transition>
 </template>
 <script setup>
-import { computed, ref } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { useCartStore } from '@/store/cart'
 import DrinkCustomizer from '@/components/DrinkCustomizer.vue'
 import { IconPlusOutline, IconCartOutline, IconHeartSolid } from '@iconify-prerendered/vue-flowbite'
-import { useRouter } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { siteName } from '@/config/site';
 const props = defineProps({
     seasonalOnly: {
@@ -94,6 +94,7 @@ const props = defineProps({
     }
 })
 const router = useRouter();
+const route = useRoute();
 const cart = useCartStore()
 const showCustomizer = ref(false)
 const selectedItem = ref(null)
@@ -106,6 +107,20 @@ const openCustomizer = (item) => {
 const closeCustomizer = () => {
     selectedItem.value = null
     showCustomizer.value = false
+
+    if (route.query.drink) {
+        const { drink, ...query } = route.query
+        router.replace({ query })
+    }
+}
+
+const selectDrink = (item) => {
+    if (props.seasonalOnly) {
+        router.push({ name: 'Order', query: { drink: item.name } })
+        return
+    }
+
+    openCustomizer(item)
 }
 
 function openCart() {
@@ -113,7 +128,7 @@ function openCart() {
 }
 
 const menuItems = [
-    { name: 'My Man', description: 'Rich and bold espresso shot with a side of wink wink ;) 😏😏😏.', price: 4.75, seasonal: false, image: "src/assets/png/BaddieBeanPlaceHolder.png" },
+    { name: 'My Man', description: 'Rich and bold espresso shot with a side of wink wink ;) 😏😏😏.', price: 4.75, seasonal: true, image: "src/assets/png/BaddieBeanPlaceHolder.png" },
     { name: 'Blueberry Cobbler Chai', description: 'Classic Chai with blueberry Cobbler Flavor and a Touch of Warm Spices', price: 6.50, seasonal: true, image: "src/assets/png/BaddieBeanPlaceHolder.png" },
     { name: 'Caramel Macchiato', description: 'Caramel and vanilla with a cloud of foam and a drizzle of golden goodness.', price: 5.00, seasonal: true, image: "src/assets/png/BaddieBeanPlaceHolder.png" },
     { name: 'Vanilla Latte', description: 'Smooth espresso with vanilla and and steamed milk. Simple, classic, and comforting.', price: 4.50, seasonal: true, image: "src/assets/png/BaddieBeanPlaceHolder.png" }
@@ -122,6 +137,17 @@ const menuItems = [
 const visibleItems = computed(() => {
     return props.seasonalOnly ? menuItems.filter(item => item.seasonal) : menuItems
 })
+
+watch(
+    () => route.query.drink,
+    (drinkName) => {
+        if (!drinkName || props.seasonalOnly) return
+
+        const item = menuItems.find(menuItem => menuItem.name === drinkName)
+        if (item) openCustomizer(item)
+    },
+    { immediate: true }
+)
 
 const cartItemCount = computed(() => {
     return cart.totalItems;

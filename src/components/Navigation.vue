@@ -36,10 +36,10 @@
               <a v-if="route.path !== '/order'" href="/order"
                 class="hidden rounded-full bg-primary px-6 py-2 gap-2 text-primary-foreground text-center no-underline shadow-sm transition hover:bg-primary-hover hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 navigation-mobile:inline-flex justify-center">
                 <IconHeartSolid width="22" height="22" />
-                Order Now
+                Order Ahead
               </a>
               <button v-else @click="goToCart"
-                class="hidden rounded-full bg-primary px-6 py-2 gap-2 text-primary-foreground text-center no-underline shadow-sm transition hover:bg-primary-hover hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 navigation-mobile:inline-flex justify-center">
+                class="cursor-pointer hidden rounded-full bg-primary px-6 py-2 gap-2 text-primary-foreground text-center no-underline shadow-sm transition hover:bg-primary-hover hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 navigation-mobile:inline-flex justify-center">
                 <IconCartOutline width="22" height="22" />
                 View Cart
               </button>
@@ -84,7 +84,7 @@
             <a v-if="route.path !== '/order'" href="/order"
               class="cursor-pointer rounded-full bg-primary px-6 py-2 my-4 gap-2 text-primary-foreground text-center no-underline shadow-sm transition hover:bg-primary-hover hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 inline-flex justify-center">
               <IconHeartSolid width="22" height="22" />
-              Order Now
+              Order Ahead
             </a>
             <button v-else @click="goToCart"
               class="cursor-pointer rounded-full bg-primary px-6 py-2 my-4 gap-2 text-primary-foreground text-center no-underline shadow-sm transition hover:bg-primary-hover hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 inline-flex justify-center">

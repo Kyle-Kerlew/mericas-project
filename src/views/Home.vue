@@ -46,7 +46,7 @@
     </section>
 
     <div>
-      <div id="locations" class="p-6 flex flex-col items-center justify-center w-full">
+      <div id="locations" class="py-3md:p-6 flex flex-col items-center justify-center w-full">
         <div class="section-heading">
           <h2 class="text-3xl font-semibold text-primary">Find Our Coffee</h2>
         </div>
@@ -80,19 +80,12 @@
                 <li>Bayard Antique Market</li>
               </ul>
             </div>
-            <button @click="viewSchedule"
-              class="flex gap-2 justify-center items-center border border-primary rounded-2xl text-primary py-2 px-6 text-lg font-semibold duration-300 ease-in-out hover:bg-primary-hover hover:text-light cursor-pointer w-full sm:w-auto">
-              <IconCalendarMonthOutline width="22" height="22" />
-              <div>
-                View Schedule
-              </div>
-            </button>
           </div>
         </div>
       </div>
       <Menu seasonalOnly />
     </div>
-    <div class="flex flex-col md:flex-row gap-5 md:gap-6 my-6 items-start md:items-center">
+    <div id="about" class="flex flex-col md:flex-row gap-5 md:gap-6 my-6 items-start md:items-center">
       <fwb-img :src="mericaImg" alt="Merica, the owner" class="w-full md:w-82 h-auto rounded-2xl object-contain" />
       <div class="w-full">
         <h1 class="text-primary text-3xl font-bold mb-3">Meet Merica</h1>
@@ -101,13 +94,57 @@
           started this business with a simple mission: to serve high-quality drinks with a whole lot of heart.</p>
         <p class="text-xl text-primary font-bold">Thank you for supporting a small, local business. </p>
         <p class="text-primary-lighter text-[36px] font-cursive">I can't wait to serve you! &#9825;</p>
-        <button @click="orderNow"
-          class="flex gap-2 items-center my-4 border border-primary text-primary cursor-pointer rounded-2xl py-2 px-6 text-lg font-semibold duration-300 ease-in-out hover:bg-primary-hover hover:text-light">
-          <IconEnvelopeSolid width="22" height="22" />
-          <span>Contact Us</span>
-        </button>
+        </div>
       </div>
-    </div>
+    <section id="contact" class="w-full py-8">
+      <div class="max-w-3xl mx-auto px-4">
+        <div class="section-heading">
+          <h2 class="text-3xl font-semibold text-primary">Contact Us</h2>
+        </div>
+        <div class="mt-4">
+          <form @submit.prevent="submitContact" class="w-full contact-form">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <input
+                v-model="contact.name"
+                type="text"
+                placeholder="Your name"
+                class="w-full border border-primary bg-white rounded-2xl px-4 py-2 text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+                aria-label="Your name"
+              />
+              <input
+                v-model="contact.email"
+                type="email"
+                placeholder="Email"
+                class="w-full border border-primary bg-white rounded-2xl px-4 py-2 text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+                aria-label="Email address"
+              />
+            </div>
+            <div class="mt-3">
+              <textarea
+                v-model="contact.message"
+                rows="4"
+                placeholder="Message"
+                class="w-full border border-primary bg-white rounded-2xl px-4 py-2 text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+                aria-label="Message"
+              ></textarea>
+            </div>
+            <div class="flex items-center gap-4 mt-3">
+              <button
+                type="submit"
+                :disabled="submitting"
+                class="flex items-center gap-2 bg-primary text-white rounded-2xl py-2 px-6 text-lg font-semibold hover:bg-primary-hover disabled:opacity-50 cursor-pointer" 
+              >
+                <IconEnvelopeSolid width="20" height="20" />
+                <span v-if="!submitting">Send Message</span>
+                <span v-else>Sending...</span>
+              </button>
+              <p v-if="success" class="text-primary font-semibold">Thanks — we'll be in touch.</p>
+              <p v-if="error" class="text-primary-lighter">{{ error }}</p>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
   </div>
 
 </template>
@@ -120,6 +157,7 @@ import { siteName } from '@/config/site';
 import { FwbImg } from 'flowbite-vue';
 import { useRouter } from 'vue-router';
 import Logo from "../components/svg/Logo.vue";
+import { ref, reactive } from 'vue';
 const router = useRouter();
 
 function orderNow() {
@@ -130,6 +168,44 @@ function viewSchedule() {
   const section = document.getElementById('locations');
   if (section) {
     section.scrollIntoView({ behavior: 'smooth' });
+  }
+}
+
+// Contact form state and submission
+const contact = reactive({ name: '', email: '', message: '' });
+const submitting = ref(false);
+const success = ref(false);
+const error = ref('');
+
+async function submitContact() {
+  error.value = '';
+  success.value = false;
+  if (!contact.name || !contact.email || !contact.message) {
+    error.value = 'Please fill out all fields.';
+    return;
+  }
+  const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRe.test(contact.email)) {
+    error.value = 'Please provide a valid email address.';
+    return;
+  }
+  submitting.value = true;
+  try {
+    // Attempt to POST to a contact endpoint. Adjust the URL to match your backend.
+    const res = await fetch('https://formspree.io/f/mljrpevb', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(contact),
+    });
+    if (!res.ok) throw new Error('Unable to send message');
+    success.value = true;
+    contact.name = '';
+    contact.email = '';
+    contact.message = '';
+  } catch (err) {
+    error.value = err.message || 'Failed to send message';
+  } finally {
+    submitting.value = false;
   }
 }
 
@@ -217,5 +293,15 @@ ul.locations li::before {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+/* Contact form tweaks to better match site theme */
+.contact-form input,
+.contact-form textarea {
+  box-shadow: 0 1px 2px rgba(16,24,40,0.04);
+}
+
+.contact-form textarea {
+  resize: vertical;
 }
 </style>
