@@ -3,7 +3,7 @@
         <DrinkCustomizer :item="selectedItem" @close="closeCustomizer" />
     </div>
     <transition v-else name="fade" appear>
-        <div class="flex justify-center gap-5 pt-3 sm:pt-6 sm:px-4 max-w-md sm:max-w-lg md:max-w-xl lg:max-w-5xl mx-auto">
+        <div class="flex justify-center gap-5 pt-3 sm:pt-6 sm:px-4 max-w-md sm:max-w-lg md:max-w-3xl lg:max-w-5xl mx-auto">
             <div id="featured" :class="['w-full sm:max-w-[80vw] rounded-3xl', seasonalOnly ? 'my-0' : 'my-6']">
                 <div class="menu-heading text-center px-8 rounded-t-2xl">
                     <div class="section-heading-eyebrow"> 

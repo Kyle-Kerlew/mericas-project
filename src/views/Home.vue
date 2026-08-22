@@ -2,13 +2,14 @@
   <div class="flex flex-col items-center">
     <!-- Hero Section -->
     <section class="hero-section w-full">
-      <div class="flex lg:flex-row gap-8 lg:gap-12 items-center">
+      <div class="flex lg:flex-row gap-3 sm:gap-8 lg:gap-12 items-center">
         <!-- Left Content -->
-        <div class="flex-1 flex flex-col gap-3 lg:gap-6">
+        <div class="flex-1 min-w-[170px] flex flex-col gap-3 lg:gap-6">
           <div>
             <p class="text-primary font-semibold text-sm md:text-base tracking-wide uppercase mb-4">SIP. SMILE. BE
               YOUR OWN MAIN CHARACTER.</p>
-            <h1 class="text-3xl lg:text-5xl xl:text-6xl md:text-5xl font-bold leading-tight text-foreground mb-4">
+            <h1
+              class="text-2xl sm:text-3xl lg:text-5xl xl:text-6xl md:text-5xl font-bold leading-tight text-foreground mb-4">
               Coffee made with <span
                 class="text-primary italic font-cursive text-4xl sm:text-4xl md:text-5xl navigation-mobile:text-6xl">love,</span>
               served in
@@ -23,14 +24,19 @@
           <!-- Buttons -->
           <div class="flex flex-col sm:flex-row gap-4 pt-4">
             <button @click="orderNow"
-              class="flex items-center justify-center gap-2 bg-primary text-white px-4 navigation-mobile:px-8 py-3 rounded-full font-semibold hover:bg-primary-hover transition-colors cursor-pointer">
-              <IconHeartSolid width="22" height="22" />
-              Order Ahead
+              class="bg-primary text-white px-2 sm:px-4 navigation-mobile:px-8 py-3 rounded-full font-semibold hover:bg-primary-hover transition-colors cursor-pointer">
+              <div class="flex items-center justify-center gap-2">
+                <IconHeartSolid width="22" height="22" />
+                <span>Order Ahead</span>
+              </div>
+
             </button>
             <button @click="viewSchedule"
-              class="flex items-center justify-center gap-2 border-2 border-primary text-primary px-4 navigation-mobile:px-8 py-3 rounded-full font-semibold hover:bg-primary hover:text-white transition-colors cursor-pointer">
-              <IconCalendarMonthOutline width="22" height="22" />
-              View Schedule
+              class="border-2 border-primary text-primary px-2 sm:px-4 navigation-mobile:px-8 py-3 rounded-full font-semibold hover:bg-primary-hover hover:text-white transition-colors cursor-pointer">
+              <div class="flex items-center justify-center gap-2">
+                <IconCalendarMonthOutline width="22" height="22" />
+                <span>View Schedule</span>
+              </div>
             </button>
           </div>
         </div>
@@ -38,8 +44,8 @@
           <div class="rounded-3xl navigation-mobile:p-8 flex items-center justify-center flex-col h-full">
             <Logo name="hero-icon" class="h-50 xs:h-60 xs:h-90 object-contain mb-4" />
             <span
-              class="font-cursive text-[30px] sm:text-[40px] md:text-[60px] lg:text-[80px] xl:text-[100px] text-primary brand-name">{{
-                siteName }}</span>
+              class="font-cursive text-[25px] xs:text-[30px] sm:text-[40px] md:text-[60px] lg:text-[80px] xl:text-[100px] text-primary brand-name">
+              {{ siteName }}</span>
           </div>
         </div>
       </div>
@@ -65,9 +71,10 @@
 
               <div class="flex-1 ml-5 mb-4">
                 <h3 class="text-primary text-xl uppercase font-semibold mb-4">next stop</h3>
-                <span class="text-lg font-bold mb-2 block">Riverside Arts Market</span>
                 <span class="text-primary font-bold mb-2 block">Sat, July 25 &#8226; 10AM - 3PM</span>
+                <span class="text-lg font-bold block">Riverside Arts Market</span>
                 <span class="text-sm">715 Riverside Ave, Jacksonville, FL.</span>
+
               </div>
             </div>
             <div>
@@ -93,10 +100,10 @@
           siteName }}. I
           started this business with a simple mission: to serve high-quality drinks with a whole lot of heart.</p>
         <p class="text-xl text-primary font-bold">Thank you for supporting a small, local business. </p>
-        <p class="text-primary-lighter text-[36px] font-cursive">I can't wait to serve you! &#9825;</p>
-        </div>
+        <p class="text-primary-lighter text-[30px] sm:text-[36px] font-cursive">I can't wait to serve you! &#9825;</p>
       </div>
-    <section id="contact" class="w-full py-8">
+    </div>
+    <section id="contact" class="w-full pb-8 pt-4">
       <div class="max-w-3xl mx-auto px-4">
         <div class="section-heading">
           <h2 class="text-3xl font-semibold text-primary">Contact Us</h2>
@@ -104,36 +111,21 @@
         <div class="mt-4">
           <form @submit.prevent="submitContact" class="w-full contact-form">
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              <input
-                v-model="contact.name"
-                type="text"
-                placeholder="Your name"
+              <input v-model="contact.name" type="text" placeholder="Your name"
                 class="w-full border border-primary bg-white rounded-2xl px-4 py-2 text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
-                aria-label="Your name"
-              />
-              <input
-                v-model="contact.email"
-                type="email"
-                placeholder="Email"
+                aria-label="Your name" />
+              <input v-model="contact.email" type="email" placeholder="Email"
                 class="w-full border border-primary bg-white rounded-2xl px-4 py-2 text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
-                aria-label="Email address"
-              />
+                aria-label="Email address" />
             </div>
             <div class="mt-3">
-              <textarea
-                v-model="contact.message"
-                rows="4"
-                placeholder="Message"
+              <textarea v-model="contact.message" rows="4" placeholder="Message"
                 class="w-full border border-primary bg-white rounded-2xl px-4 py-2 text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
-                aria-label="Message"
-              ></textarea>
+                aria-label="Message"></textarea>
             </div>
             <div class="flex items-center gap-4 mt-3">
-              <button
-                type="submit"
-                :disabled="submitting"
-                class="flex items-center gap-2 bg-primary text-white rounded-2xl py-2 px-6 text-lg font-semibold hover:bg-primary-hover disabled:opacity-50 cursor-pointer" 
-              >
+              <button type="submit" :disabled="submitting"
+                class="flex items-center gap-2 bg-primary text-white rounded-2xl py-2 px-6 text-lg font-semibold hover:bg-primary-hover disabled:opacity-50 cursor-pointer">
                 <IconEnvelopeSolid width="20" height="20" />
                 <span v-if="!submitting">Send Message</span>
                 <span v-else>Sending...</span>
@@ -298,7 +290,7 @@ ul.locations li::before {
 /* Contact form tweaks to better match site theme */
 .contact-form input,
 .contact-form textarea {
-  box-shadow: 0 1px 2px rgba(16,24,40,0.04);
+  box-shadow: 0 1px 2px rgba(16, 24, 40, 0.04);
 }
 
 .contact-form textarea {

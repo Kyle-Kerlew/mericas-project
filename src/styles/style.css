@@ -46,6 +46,11 @@ body {
     line-height: 1.6;
 }
 
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
 nav,
 .eyebrow {
     font-weight: 600;
@@ -94,6 +99,10 @@ li {
 .fade-leave-to {
     opacity: 0;
     transform: translateY(-10px);
+}
+
+.icon-thin path {
+    stroke-width: 1px !important;
 }
 
 @theme {

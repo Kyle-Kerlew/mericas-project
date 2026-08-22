@@ -72,8 +72,8 @@
                 </div>
             </section>
 
-            <button class="checkout-button" type="button" v-if="cartItems.length" @click="handleCheckout">Checkout</button>
-            <button class="continue-button" type="button" @click="continueShopping">Continue Shopping</button>
+            <button class="mb-3 bg-primary w-full rounded-xl p-4 cursor-pointer text-white hover:bg-primary-hover" type="button" v-if="cartItems.length" @click="handleCheckout">Checkout</button>
+            <button class="mb-3 bg-white border border-primary hover:text-white hover:bg-primary-hover w-full rounded-xl p-4 cursor-pointer" type="button" @click="continueShopping">Continue Shopping</button>
         </div>
     </transition>
     
@@ -103,18 +103,28 @@ const continueShopping = () => router.back()
 const formatCurrency = (value) =>
     new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(value)
 
+const getItemTax = (item) => {
+    const amount = (item.price || 0) * (item.quantity || 1)
+    return Number((amount * 0.075).toFixed(2))
+}
+
 const handleCheckout = async () => {
-    console.log('checkout button clicked')
     try {
-        const result = await paymentService.listLocations()
-        console.log('locations:', result)
+        // compute per-item tax (7.5%) and attach to items for Square
+        const itemsForPayment = cartItems.value.map((item) => ({
+            ...item,
+            tax: getItemTax(item),
+        }))
+
+        // amount expected by Square is in cents
+        const amountCents = Math.round(total.value * 100)
+
         const link = await paymentService.createPaymentLink({
-            items: cartItems.value,
-            amount: total.value,
+            items: itemsForPayment,
+            amount: amountCents,
         })
-        //reddirect to link result
+        // redirect to link result
         window.location.href = link;
-        console.log('generated link:', link)
     } catch (error) {
         console.error('Checkout failed:', error)
     }
@@ -291,22 +301,6 @@ const onUpdateItem = ({ index, item }) => {
     cursor: pointer;
 }
 
-.checkout-button,
-.continue-button {
-    width: 100%;
-    border: none;
-    border-radius: 18px;
-    padding: 16px;
-    font-size: 1rem;
-    font-weight: 700;
-    cursor: pointer;
-}
-
-.checkout-button {
-    background: linear-gradient(90deg, #d41d73, #b42d80);
-    color: #fff;
-    margin-bottom: 12px;
-}
 
 .custom-grid-nav-header {
     display: grid;
@@ -325,10 +319,6 @@ const onUpdateItem = ({ index, item }) => {
     top: 50%;
     transform: translate(-50%, -50%);
     white-space: nowrap;
-}
-
-:deep(.icon-thin path) {
-    stroke-width: 1px !important;
 }
 
 .continue-button {

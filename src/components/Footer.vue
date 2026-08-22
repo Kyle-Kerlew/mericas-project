@@ -1,5 +1,5 @@
 <template>
-    <footer class="bg-accent text-foreground-secondary py-8">
+    <footer class="bg-accent text-foreground-secondary py-8 px-3">
         <div class="flex justify-center items-center gap-6">
 
             <p>Thanks For Supporting Small & Local!</p>

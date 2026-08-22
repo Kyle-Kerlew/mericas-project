@@ -51,8 +51,6 @@ function listLocations() {
 }
 async function createPaymentLink({ amount, items }) {
     const idempotencyKey = crypto.randomUUID();
-    console.log("amount: ", amount);
-    console.log("items: ", items);
     const locationId = import.meta.env.VITE_SQUARE_LOCATION_ID;
     const body = {
         idempotency_key: idempotencyKey,
@@ -62,7 +60,6 @@ async function createPaymentLink({ amount, items }) {
         },
         order: {
             location_id: locationId,
-
             line_items: items.map((item) => ({
                 name: item.name,
 
@@ -70,7 +67,7 @@ async function createPaymentLink({ amount, items }) {
                 base_price_money: {
                     amount: convertToCents(item.price),
                     currency: 'USD',
-                },
+                }
             })),
         },
         amount_money: {
