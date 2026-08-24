@@ -21,14 +21,19 @@
                 Find Us
               </a>
 
-              <a href="/#featured"
+              <a href="/order"
                 class="font-semibold text-foreground no-underline transition-colors hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2">
-                Featured Drinks
+                Menu
               </a>
 
               <a href="/#about"
                 class="font-semibold text-foreground no-underline transition-colors hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2">
                 About
+              </a>
+
+              <a href="/#contact"
+                class="font-semibold text-foreground no-underline transition-colors hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2">
+                Contact
               </a>
             </nav>
 
@@ -85,15 +90,20 @@
               <IconMapPinAltSolid class="text-primary" width="28" height="28" />
               Find Us
             </a>
-            <a href="/#featured" @click="menuOpen = false"
+            <a href="/order" @click="menuOpen = false"
               class="mt-2 flex items-center gap-4 rounded-2xl px-4 py-3 font-semibold text-foreground transition-colors hover:bg-slate-100">
               <IconStoreSolid class="text-primary" width="28" height="28" />
-              Featured Drinks
+              Menu
             </a>
             <a href="/#about" @click="menuOpen = false"
               class="mt-2 flex items-center gap-4 rounded-2xl px-4 py-3 font-semibold text-foreground transition-colors hover:bg-slate-100">
               <IconHeartSolid class="text-primary" width="28" height="28" />
               About
+            </a>
+            <a href="/#contact" @click="menuOpen = false"
+              class="mt-2 flex items-center gap-4 rounded-2xl px-4 py-3 font-semibold text-foreground transition-colors hover:bg-slate-100">
+              <IconEnvelopeSolid class="text-primary" width="28" height="28" />
+              Contact
             </a>
             <a v-if="route.path === '/' && cartItemCount === 0" href="/order"
               class="cursor-pointer rounded-full bg-primary px-6 py-2 my-4 gap-2 text-primary-foreground text-center no-underline shadow-sm transition hover:bg-primary-hover hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 inline-flex justify-center">
@@ -130,6 +140,7 @@ import {
   IconCartOutline,
   IconMapPinAltSolid,
   IconStoreSolid,
+  IconEnvelopeSolid,
 } from '@iconify-prerendered/vue-flowbite'
 import Logo from './svg/Logo.vue';
 import { useRoute, useRouter } from 'vue-router'

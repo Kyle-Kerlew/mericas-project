@@ -32,7 +32,7 @@
 
             </button>
             <button @click="viewSchedule"
-              class="border-2 border-primary text-primary px-2 sm:px-4 navigation-mobile:px-8 py-3 rounded-full font-semibold hover:bg-primary-hover hover:text-white transition-colors cursor-pointer">
+              class="border-2 border-outline text-primary px-2 sm:px-4 navigation-mobile:px-8 py-3 rounded-full font-semibold hover:bg-primary-hover hover:text-white transition-colors cursor-pointer">
               <div class="flex items-center justify-center gap-2">
                 <IconCalendarMonthOutline width="22" height="22" />
                 <span>View Schedule</span>
@@ -44,7 +44,7 @@
           <div class="rounded-3xl navigation-mobile:p-8 flex items-center justify-center flex-col h-full">
             <Logo name="hero-icon" class="h-50 xs:h-60 xs:h-90 object-contain mb-4" />
             <span
-              class="font-cursive text-[25px] xs:text-[30px] sm:text-[40px] md:text-[60px] lg:text-[80px] xl:text-[100px] text-primary brand-name">
+              class="font-cursive text-5xl sm:text-[34px] md:text-[60px] lg:text-[80px] xl:text-[100px] text-primary brand-name">
               {{ siteName }}</span>
           </div>
         </div>
@@ -218,7 +218,6 @@ async function submitContact() {
 
 .brand-name {
   position: relative;
-  display: inline-block;
   font-family: "Sacramento", cursive;
   line-height: 1;
 
@@ -248,6 +247,23 @@ ul.locations li {
 .hero-section {
   padding-top: 4rem;
   padding-bottom: 2rem;
+}
+
+@media (max-width: 510px) {
+  .brand-name {
+    font-size: 36px;
+  }
+}
+
+@media (max-width: 430px) {
+  .brand-name {
+    font-size: 30px;
+  }
+}
+@media (max-width: 400px) {
+  .brand-name {
+    font-size: 25px;
+  }
 }
 
 .font-cursive {

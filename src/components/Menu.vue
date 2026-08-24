@@ -3,10 +3,11 @@
         <DrinkCustomizer :item="selectedItem" @close="closeCustomizer" />
     </div>
     <transition v-else name="fade" appear>
-        <div class="flex justify-center gap-5 pt-3 sm:pt-6 sm:px-4 max-w-md sm:max-w-lg md:max-w-3xl lg:max-w-5xl mx-auto">
+        <div
+            class="flex justify-center gap-5 pt-3 sm:pt-6 sm:px-4 max-w-md sm:max-w-lg md:max-w-3xl lg:max-w-5xl mx-auto">
             <div id="featured" :class="['w-full sm:max-w-[80vw] rounded-3xl', seasonalOnly ? 'my-0' : 'my-6']">
                 <div class="menu-heading text-center px-8 rounded-t-2xl">
-                    <div class="section-heading-eyebrow"> 
+                    <div class="section-heading-eyebrow">
                         <h2 class="font-cursive! text-3xl text-primary">Made With Love</h2>
                     </div>
                     <h2 class="text-4xl font-semibold mb-2">
@@ -15,7 +16,7 @@
                     <span class="mb-2">Our most loved drinks, made just for you</span>
                     <IconHeartSolid class="text-primary" width="22" height="22" />
                 </div>
-                <div class="py-3 sm:px-6">
+                <div class="py-3">
                     <div class="grid grid-cols-1 gap-y-8 gap-x-2 navigation-mobile:grid-cols-2">
                         <div v-for="item in visibleItems" :key="item.name">
                             <div class="grid grid-cols-[100px_minmax(120px,_1fr)_100px]">
@@ -34,8 +35,7 @@
                                         style: 'currency',
                                         currency: 'USD'
                                     }).format(item.price) }}</span>
-                                    <button @click="selectDrink(item)" class="add-btn"
-                                        aria-label="Add {{ item.name }}">
+                                    <button @click="selectDrink(item)" class="add-btn" aria-label="Add {{ item.name }}">
                                         <IconPlusOutline width="20" height="20" />
                                     </button>
                                 </div>
@@ -56,7 +56,7 @@
 
                     <button v-if="!seasonalOnly" @click="openCart"
                         class="flex items-center justify-between gap-2 bg-primary text-white my-3 rounded-full py-3 px-6 w-full md:w-[65%] shadow-md cursor-pointer">
-                        <div class="flex items-center w-1/3">
+                        <div class="flex items-center w-1/3 min-[425px]:w-1/2">
                             <div class="relative mr-5">
                                 <IconCartOutline class="icon-thin" height="36" width="36" />
                                 <span
@@ -68,7 +68,7 @@
                         <div>
                             <div class="vertical-separator" />
                         </div>
-                        <div class="flex items-center justify-end w-1/3">
+                        <div class="flex items-center justify-end w-1/3 min-[425px]:w-1/2">
                             <span>Total: {{ new Intl.NumberFormat('en-US', {
                                 style: 'currency', currency: 'USD'
                             }).format(cartItemCost) }}</span>
@@ -175,6 +175,12 @@ function orderNow() {
 .vertical-separator {
     height: 35px;
     border-right: 1px solid white;
+}
+
+@media (max-width: 425px) {
+    .vertical-separator {
+        display: none;
+    }
 }
 
 :deep(.icon-thin path) {

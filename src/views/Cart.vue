@@ -18,7 +18,7 @@
 
             <section v-if="cartItems.length">
                 <div v-for="(item, idx) in cartItems" :key="item.id ?? idx"
-                    class="grid custom-grid py-2 px-2 border-b border-b-background-alt-hover">
+                    class="grid custom-grid gap-2 py-2 px-2 border-b border-b-background-alt-hover">
                     <img :src="item.image || placeholderImage" :alt="item.name" class="item-image" />
                     <div>
                         <div>
@@ -33,17 +33,17 @@
                     <div class="item-actions">
                         <div class="quantity-control">
                             <template v-if="(item.quantity || 1) > 1">
-                                <button aria-label="Decrease quantity" @click="decrement(item)">−</button>
+                                <button class="decrement-button" aria-label="Decrease quantity" @click="decrement(item)">−</button>
                             </template>
                             <template v-else>
-                                <button aria-label="Remove item" class="trash-button" @click="decrement(item)">
+                                <button aria-label="Remove item" class="trash-button decrement-button" @click="decrement(item)">
                                     <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                                         <path d="M3 6h18v2H3V6zm2 3h14l-1 11H6L5 9zm3-5h8l1 1h3v2H4V5h3l1-1z" />
                                     </svg>
                                 </button>
                             </template>
                             <span>{{ item.quantity || 1 }}</span>
-                            <button aria-label="Increase quantity" @click="increment(item)">+</button>
+                            <button class="increment-button" aria-label="Increase quantity" @click="increment(item)">+</button>
                         </div>
                         <div class="item-price">{{ formatCurrency((item.price || 0) * (item.quantity || 1)) }}</div>
                     </div>
@@ -73,7 +73,7 @@
             </section>
 
             <button class="mb-3 bg-primary w-full rounded-xl p-4 cursor-pointer text-white hover:bg-primary-hover" type="button" v-if="cartItems.length" @click="handleCheckout">Checkout</button>
-            <button class="mb-3 bg-white border border-primary hover:text-white hover:bg-primary-hover w-full rounded-xl p-4 cursor-pointer" type="button" @click="continueShopping">Continue Shopping</button>
+            <button class="mb-3 bg-white border border-outline hover:text-white hover:bg-primary-hover w-full rounded-xl p-4 cursor-pointer text-foreground" type="button" @click="continueShopping">Continue Shopping</button>
         </div>
     </transition>
     
@@ -93,7 +93,7 @@ const cartItems = computed(() => cartStore.items || [])
 const subtotal = computed(() =>
     cartItems.value.reduce((sum, item) => sum + (item.price || 0) * (item.quantity || 1), 0)
 )
-const extras = computed(() => cartStore.extras ?? 2.25)
+const extras = computed(() => cartStore.extras ?? 0)
 const tax = computed(() => subtotal.value * 0.075)
 const total = computed(() => subtotal.value + tax.value + extras.value)
 
@@ -184,6 +184,12 @@ const onUpdateItem = ({ index, item }) => {
     justify-content: center;
 }
 
+@media (max-width: 510px) {
+    .custom-grid {
+        grid-template-columns: 0.50fr 1fr .35fr;
+    }
+}
+
 .cart-header {
     display: flex;
     align-items: center;
@@ -210,10 +216,18 @@ const onUpdateItem = ({ index, item }) => {
 
 .item-image {
     width: 84px;
-    height: 84px;
+    height: auto;
     border-radius: 50%;
+    /* Keep aspect ratio */
+    aspect-ratio: 1 / 1;
     object-fit: cover;
     background: #fde8f3;
+}
+@media (max-width: 380px) {
+    .item-image {
+        width: 58px;
+        height: 58px;
+    }
 }
 
 .item-main {
@@ -265,6 +279,22 @@ const onUpdateItem = ({ index, item }) => {
     height: 28px;
     border-radius: 50%;
     cursor: pointer;
+}
+
+@media (max-width: 510px) {
+    .quantity-control {
+        flex-direction: column;
+        gap: 2px;
+        padding: 6px;
+    }
+
+    .quantity-control .increment-button {
+        order: -1;
+    }
+
+    .quantity-control .decrement-button {
+        order: 1;
+    }
 }
 
 .trash-button {
