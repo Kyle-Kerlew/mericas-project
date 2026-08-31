@@ -128,10 +128,15 @@ function openCart() {
 }
 
 const menuItems = [
-    { name: 'My Man', description: 'Rich and bold espresso shot with a side of wink wink ;) 😏😏😏.', price: 4.75, seasonal: true, image: "src/assets/png/BaddieBeanPlaceHolder.png" },
+    { name: 'Lemon Blackberry Refresher', description: 'A refreshing blend of lemon and blackberry flavors.', price: 4.75, seasonal: true, image: "src/assets/png/BaddieBeanPlaceHolder.png" },
     { name: 'Blueberry Cobbler Chai', description: 'Classic Chai with blueberry Cobbler Flavor and a Touch of Warm Spices', price: 6.50, seasonal: true, image: "src/assets/png/BaddieBeanPlaceHolder.png" },
     { name: 'Caramel Macchiato', description: 'Caramel and vanilla with a cloud of foam and a drizzle of golden goodness.', price: 5.00, seasonal: true, image: "src/assets/png/BaddieBeanPlaceHolder.png" },
-    { name: 'Vanilla Latte', description: 'Smooth espresso with vanilla and and steamed milk. Simple, classic, and comforting.', price: 4.50, seasonal: true, image: "src/assets/png/BaddieBeanPlaceHolder.png" }
+    { name: 'Vanilla Latte', description: 'Smooth espresso with vanilla and and steamed milk. Simple, classic, and comforting.', price: 4.50, seasonal: true, image: "src/assets/png/BaddieBeanPlaceHolder.png" },
+    { name: 'Mocha Latte', description: 'Rich espresso blended with chocolate and steamed milk for a smooth, cozy favorite.', price: 5.25, seasonal: false, image: "src/assets/png/BaddieBeanPlaceHolder.png" },
+    { name: 'Honey Cinnamon Latte', description: 'Silky espresso and steamed milk sweetened with honey and finished with cinnamon.', price: 5.25, seasonal: false, image: "src/assets/png/BaddieBeanPlaceHolder.png" },
+    { name: 'Strawberry Cream Fizz', description: 'Bright strawberry flavor topped with sparkling bubbles and a creamy finish.', price: 5.00, seasonal: false, image: "src/assets/png/BaddieBeanPlaceHolder.png" },
+    { name: 'Cold Brew', description: 'Slow-steeped coffee served cold with a smooth, bold finish.', price: 4.25, seasonal: false, image: "src/assets/png/BaddieBeanPlaceHolder.png" },
+    { name: 'Matcha Cloud', description: 'Earthy matcha shaken with milk and topped with a light vanilla foam.', price: 5.50, seasonal: false, image: "src/assets/png/BaddieBeanPlaceHolder.png" }
 ]
 
 const visibleItems = computed(() => {

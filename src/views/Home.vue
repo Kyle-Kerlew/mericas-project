@@ -81,8 +81,8 @@
               <h2 class="text-primary uppercase font-semibold text-xl mb-3">Also Find Us At</h2>
               <ul class="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-3 locations text-foreground-secondary">
                 <li>Riverside Arts Market</li>
-                <li>Riverside Flea Market</li>
-                <li>Ya Mammas House</li>
+                <li>Jacksonville Flea Market</li>
+                <li>Murray Hill Farmers Market</li>
                 <li>Really Free Market</li>
                 <li>Bayard Antique Market</li>
               </ul>

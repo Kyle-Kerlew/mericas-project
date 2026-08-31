@@ -1,9 +1,9 @@
 <template>
-  <div>
+  <div class="app-shell">
     <Navigation/>
-    <div class="gutter-container">
+    <main class="gutter-container app-content">
       <router-view />
-    </div>
+    </main>
     <Footer />
   </div>
 </template>
@@ -15,6 +15,16 @@ import Navigation from '@/components/Navigation.vue';
 </script>
 
 <style>
+.app-shell {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.app-content {
+  flex: 1;
+}
+
 .gutter-container {
   width: min(100% - 1.5rem, 90rem);
   margin: 0 auto;

@@ -40,7 +40,7 @@
             <div class="flex items-center justify-end gap-2 navigation-mobile:justify-self-end">
               <a v-if="route.path === '/' && cartItemCount === 0" href="/order"
                 class="hidden rounded-full bg-primary px-6 py-2 gap-2 text-primary-foreground text-center no-underline shadow-sm transition hover:bg-primary-hover hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 navigation-mobile:inline-flex justify-center">
-                <div>
+                <div class="flex items-center gap-2">
                   <IconHeartSolid width="22" height="22" />
                   <span>Order Ahead</span>
                 </div>
@@ -107,7 +107,7 @@
             </a>
             <a v-if="route.path === '/' && cartItemCount === 0" href="/order"
               class="cursor-pointer rounded-full bg-primary px-6 py-2 my-4 gap-2 text-primary-foreground text-center no-underline shadow-sm transition hover:bg-primary-hover hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 inline-flex justify-center">
-              <div>
+              <div class="flex items-center gap-2">
 
                 <IconHeartSolid width="22" height="22" />
                 <span> Order Ahead</span>
