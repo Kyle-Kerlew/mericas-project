@@ -90,18 +90,6 @@ The cart provides an overview of selected drinks and allows customers to:
 
 > Add screenshot here
 > ![Shopping Cart](screenshots/cart.png)
-
----
-
-### Checkout
-
-The application prepares the customer's order and creates a Square payment link for checkout.
-
-**Screenshot:**
-
-> Add screenshot here
-> ![Checkout](screenshots/checkout.png)
-
 ---
 
 ### Mobile Experience
@@ -111,7 +99,7 @@ The interface includes a dedicated mobile navigation experience and responsive l
 **Screenshot:**
 
 > Add screenshot here
-> ![Mobile Experience](screenshots/mobile.png)
+> ![Mobile Experience](screenshots/desktop_mobile.png)
 
 ---
 
