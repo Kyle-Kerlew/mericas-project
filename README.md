@@ -37,7 +37,7 @@ The home page introduces the business, highlights the upcoming location, provide
 **Screenshot:**
 
 > Add screenshot here
-> `![Home Page](screenshots/home.png)`
+> ![Home Page](screenshots/home.png)
 
 ---
 
@@ -48,7 +48,7 @@ The menu displays available drinks with descriptions, pricing, images, and contr
 **Screenshot:**
 
 > Add screenshot here
-> `![Menu](screenshots/menu.png)`
+> ![Menu](screenshots/menu.png)
 
 ---
 
@@ -68,7 +68,7 @@ Pricing adjustments are calculated dynamically based on the selected options.
 **Screenshot:**
 
 > Add screenshot here
-> `![Drink Customization](screenshots/drink-customization.png)`
+> ![Drink Customization](screenshots/drink-customization.png)
 
 ---
 
@@ -89,7 +89,7 @@ The cart provides an overview of selected drinks and allows customers to:
 **Screenshot:**
 
 > Add screenshot here
-> `![Shopping Cart](screenshots/cart.png)`
+> ![Shopping Cart](screenshots/cart.png)
 
 ---
 
@@ -100,7 +100,7 @@ The application prepares the customer's order and creates a Square payment link 
 **Screenshot:**
 
 > Add screenshot here
-> `![Checkout](screenshots/checkout.png)`
+> ![Checkout](screenshots/checkout.png)
 
 ---
 
@@ -111,7 +111,7 @@ The interface includes a dedicated mobile navigation experience and responsive l
 **Screenshot:**
 
 > Add screenshot here
-> `![Mobile Experience](screenshots/mobile.png)`
+> ![Mobile Experience](screenshots/mobile.png)
 
 ---
 
