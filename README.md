@@ -48,7 +48,7 @@ The menu displays available drinks with descriptions, pricing, images, and contr
 **Screenshot:**
 
 > Add screenshot here
-> ![Menu](screenshots/menu.png)
+> ![Menu](screenshots/full_menu.png)
 
 ---
 
@@ -68,7 +68,7 @@ Pricing adjustments are calculated dynamically based on the selected options.
 **Screenshot:**
 
 > Add screenshot here
-> ![Drink Customization](screenshots/drink-customization.png)
+> ![Drink Customization](screenshots/drink_customization.png)
 
 ---
 
